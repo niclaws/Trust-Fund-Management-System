@@ -6,11 +6,21 @@ from managers.admin import AdminManager
 from managers.application import ApplicationManager
 from managers.student import StudentManager
 from schemas.request.admin.login_admin import LoginAdmin
+from schemas.request.admin.register_admin import RegisterAdmin
 from schemas.response.application.load_application import LoadApplication
 from schemas.response.student.load_student import LoadStudent
 from utils.auth.admin.verify_token import admin_oauth2_scheme
 
 router = APIRouter(prefix="/admin", tags=["ADMIN APIS"])
+
+
+@router.post(
+    "/register", summary="Register as Admin", status_code=status.HTTP_201_CREATED
+)
+async def register_admin(data: RegisterAdmin):
+    data = data.dict()
+    await AdminManager.create_admin(data=data)
+    return {"message": "Admin account created successfully !"}
 
 
 @router.post("/login", summary="Login as Admin", status_code=status.HTTP_201_CREATED)

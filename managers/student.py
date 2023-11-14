@@ -44,6 +44,11 @@ class StudentManager:
                 detail="The Verification Code you have entered is incorrect !",
             )
         await database.execute(student.update().values(is_verified=True))
+        subject = "Account Activation for Trust Fund Management System"
+        message = f"""Congratulations {student_found['name']}!\n\nYour account is verified for Trust Fund Management System.\nNow You can login to your account and submit your application.\n\nThanks,\nThe Trust Fund Management Team"""
+        EmailAutomation.send_email(
+            subject=subject, message=message, recipient_email=student_found["email"]
+        )
 
     @staticmethod
     async def get_student_by_email(email):

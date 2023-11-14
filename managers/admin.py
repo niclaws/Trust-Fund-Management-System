@@ -9,11 +9,7 @@ from utils.bcrypt.password import HashedPassword
 class AdminManager:
     @staticmethod
     async def get_admin_by_email(email):
-        return await database.fetch_one(
-            sqlalchemy.select([admin.c.id, admin.c.email, admin.c.password]).where(
-                admin.c.email == email
-            )
-        )
+        return await database.fetch_one(admin.select().where(admin.c.email == email))
 
     @staticmethod
     async def create_admin(data):
