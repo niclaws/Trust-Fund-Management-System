@@ -28,6 +28,11 @@ class StudentManager:
     @staticmethod
     async def verify_otp(email, verification_code):
         student_found = await StudentManager.get_student_by_email(email=email)
+        if student_found is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="The email id is not found in our database !!!",
+            )
         if verification_code != student_found["verification_code"]:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
