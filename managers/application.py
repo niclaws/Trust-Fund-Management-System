@@ -81,3 +81,9 @@ class ApplicationManager:
                 ]
             ).where(application.c.status == Status.rejected.name)
         )
+
+    @staticmethod
+    async def get_applications_from_student(student_id):
+        return await database.fetch_all(
+            application.select().where(application.c.student_id == student_id)
+        )
