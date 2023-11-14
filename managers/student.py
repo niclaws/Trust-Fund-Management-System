@@ -13,6 +13,11 @@ class StudentManager:
     @staticmethod
     async def send_otp(email):
         student_found = await StudentManager.get_student_by_email(email=email)
+        if student_found is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="The email id is not found in our database !!!",
+            )
         verification_code = OTPGeneration.generate_otp()
         await database.execute(
             student.update()
